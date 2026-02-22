@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EPSJV\Acl;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,5 +13,4 @@ class PapelPermissao extends Model
     protected $fillable = ['papel_id', 'permissao_id'];
 
     public $timestamps = false;
-
 }

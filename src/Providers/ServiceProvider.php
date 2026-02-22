@@ -6,15 +6,15 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->publishes([
-            __DIR__."/../database/seeds/AclPapelPermissaoTableSeeder.php" => database_path("seeds/AclPapelPermissaoTableSeeder.php"),
-            __DIR__."/../database/seeds/AclPapelTableSeeder.php" => database_path("seeds/AclPapelTableSeeder.php"),
-            __DIR__."/../database/seeds/AclPapelUserTableSeeder.php" => database_path("seeds/AclPapelUserTableSeeder.php"),
-            __DIR__."/../database/seeds/AclPermissaoTableSeeder.php" => database_path("seeds/AclPermissaoTableSeeder.php"),
-        ]);
+            __DIR__."/../database/seeders/AclPapelPermissaoTableSeeder.php" => database_path("seeders/AclPapelPermissaoTableSeeder.php"),
+            __DIR__."/../database/seeders/AclPapelTableSeeder.php" => database_path("seeders/AclPapelTableSeeder.php"),
+            __DIR__."/../database/seeders/AclPapelUserTableSeeder.php" => database_path("seeders/AclPapelUserTableSeeder.php"),
+            __DIR__."/../database/seeders/AclPermissaoTableSeeder.php" => database_path("seeders/AclPermissaoTableSeeder.php"),
+        ], 'acl-seeders');
     }
 
 }   

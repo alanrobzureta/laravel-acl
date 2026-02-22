@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EPSJV\Acl;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Papel extends Model
@@ -14,15 +15,18 @@ class Papel extends Model
     /**
      * Retorna todas as permissões com o papel.
      *
-     * @return collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function permissoes()
+    public function permissoes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Permissao::class,PapelPermissao::class);
+        return $this->belongsToMany(Permissao::class, PapelPermissao::class);
     }
 
-    public function users()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class,PapelUser::class);
+        return $this->belongsToMany(\App\Models\User::class, PapelUser::class);
     }
 }

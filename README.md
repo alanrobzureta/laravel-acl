@@ -7,8 +7,8 @@ laravel-acl é um pacote criado para facilitar o processo de criação das regra
 
 
 ## Requisitos
-* [PHP](https://php.net) 5.6+
-* [Laravel](https://laravel.com/) 5.2+
+* [PHP](https://php.net) 8.4+
+* [Laravel](https://laravel.com/) 12.x
 
 
 ## Instalação 
@@ -27,7 +27,7 @@ composer require epsjv/acl
 ```php
  php artisan vendor:publish --provider="EPSJV\Acl\Providers\ServiceProvider"
 ```
-* Registrar as Seeds básicas de permissões no database/seeds/DatabaseSeeder.php:
+* Registrar as Seeds básicas de permissões no database/seeders/DatabaseSeeder.php:
 ```php
 public function run()
 {
@@ -78,7 +78,7 @@ class AuthServiceProvider extends ServiceProvider
 
 ```
 
-* Incluir as Traits "HasPapeis" e "WithPapeis" no model User (User.php) conforme abaixo:
+* Incluir as Traits "HasPapeis" e "WithPapeis" no model User (App\Models\User.php) conforme abaixo:
 ```php
  
 use EPSJV\Acl\Traits\HasPapeis;
@@ -172,18 +172,18 @@ Um exemplo dessa implementação pode ser feito da seguinte forma:
 
 namespace App\Traits;
 
-use App\User;
+use App\Models\User;
 use EPSJV\Acl\Permissao;
 use Illuminate\Support\Facades\Gate;
 
 trait MakeAuthorizations
 {
-    public function makeAuthorizations()
+    public function makeAuthorizations(): void
     {
         $permissoes = Permissao::with('papeis')->get();
         
         foreach ($permissoes as $permissao) {
-            Gate::define($permissao->nome, function(User $user) use ($permissao) {                                        
+            Gate::define($permissao->nome, function(User $user) use ($permissao): bool {                                        
                 return $permissao->papeis->pluck('id')->contains(session('session_papel_id'));  
             });            
         }
@@ -210,9 +210,35 @@ use App\Traits\MakeAuthorizations;
 
 #
 
-Veja tudo sobre a utilização de [AUTHORIZATIONS](hhttps://laravel.com/docs/6.x/authorization).
+Veja tudo sobre a utilização de [AUTHORIZATIONS](https://laravel.com/docs/12.x/authorization).
 
-Para mais informações sobre o laravel, consulte a [documentação oficial](https://laravel.com/docs/) 6.x do Laravel.
+Para mais informações sobre o laravel, consulte a [documentação oficial](https://laravel.com/docs/12.x) 12.x do Laravel.
 
 #### Licença
 MIT
+
+
+## Atualizando para a versão 2.0.0 (GitHub / Packalyst)
+
+O pacote agora exige PHP 8.4 e Laravel 12. Para publicar essa nova versão, siga os passos abaixo:
+
+**No GitHub:**
+1. Faça o commit de todas as alterações feitas na base de código.
+   ```bash
+   git add .
+   git commit -m "feat: atualização para Laravel 12 e PHP 8.4 v2.0.0"
+   ```
+2. Crie uma nova tag para a versão `2.0.0`.
+   ```bash
+   git tag 2.0.0
+   ```
+3. Faça o push da tag e dos commits para o GitHub.
+   ```bash
+   git push origin main
+   git push origin 2.0.0
+   ```
+4. Navegue até a página de **Releases** no seu repositório no GitHub e crie uma nova Release utilizando a tag `2.0.0`.
+
+**No Packagist / Packalyst:**
+1. Se o seu pacote possui a integração de Webhook ativa com o GitHub, o **Packagist** reconhecerá automaticamente a tag `2.0.0` e a disponibilizará em instantes.
+2. Caso não esteja automatizado, acesse sua conta no [Packagist.org](https://packagist.org/), busque pelo seu pacote `epsjv/acl` e clique no botão **Update**. O Packalyst se alimenta do Packagist, então a atualização refletirá lá também.

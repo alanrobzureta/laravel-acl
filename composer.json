@@ -2,7 +2,10 @@
     "name": "epsjv/acl",
     "description": "Pacote Básico de Permissões.",
     "license": "MIT",
-    "require": {},
+    "require": {
+        "php": "^8.4",
+        "illuminate/support": "^12.0"
+    },
     "autoload": {
         "psr-4": {
             "EPSJV\\Acl\\": "src/"
